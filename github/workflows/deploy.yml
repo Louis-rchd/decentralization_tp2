@@ -1,0 +1,34 @@
+name: Deploy to Pinata
+
+on:
+  push:
+    branches:
+      - main  # Déclenche l'action sur la branche 'main'
+  pull_request:
+    branches:
+      - main  # Déclenche l'action sur une Pull Request vers 'main'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest  # Utilise une machine virtuelle Ubuntu pour l'exécution
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+    
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '14'
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Deploy to Pinata
+      env:
+        PINATA_JWT: ${{ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySW5mb3JtYXRpb24iOnsiaWQiOiJjYTRhNmJlNS05MTliLTQ0MDktYTQ3Yi03ZDI0MGFkYzQxOTYiLCJlbWFpbCI6ImxvdWlzLnJpY2hhcmQyMkBvcmFuZ2UuZnIiLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwicGluX3BvbGljeSI6eyJyZWdpb25zIjpbeyJkZXNpcmVkUmVwbGljYXRpb25Db3VudCI6MSwiaWQiOiJGUkExIn0seyJkZXNpcmVkUmVwbGljYXRpb25Db3VudCI6MSwiaWQiOiJOWUMxIn1dLCJ2ZXJzaW9uIjoxfSwibWZhX2VuYWJsZWQiOmZhbHNlLCJzdGF0dXMiOiJBQ1RJVkUifSwiYXV0aGVudGljYXRpb25UeXBlIjoic2NvcGVkS2V5Iiwic2NvcGVkS2V5S2V5IjoiYjFmZjlkZDIxMmE1NTUwNmM2ZjciLCJzY29wZWRLZXlTZWNyZXQiOiJiZGNkMmZhZjJkYzE3MTRiNGQ3YTFhYjhhNDMxYzQ3YjRhOWJhMzZlMWIzZGJhMWI1Y2EwZDA4NzViNGIzNDlhIiwiZXhwIjoxNzY5NTk2NjAzfQ.F53up_k_Ltyefl8prRFP6WePwp65e6gr-v7cZ3mzZhg }} 
+        PINATA_GATEWAY: "cyan-famous-lungfish-782.mypinata.cloud"
+      run: |
+        npm install pinata-web3
+        node deployToPinata.js  # Le fichier qui contient ton code pour uploader sur Pinata
+
